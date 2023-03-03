@@ -35,6 +35,7 @@ class TaskController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $task->setUser( $this->getUser());
             $this->em->persist($task);
             $this->em->flush();
 
@@ -87,9 +88,14 @@ class TaskController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function deleteTaskAction(Task $task)
     {
+        if($task->getUser()->getId() != $this->getUser()->getId()){
+           
+            $this->addFlash('info', 'Vous ne pouvez pas supprimer cette tache.');
+            return $this->redirectToRoute('task_list');
+        }
+        
         $this->em->remove($task);
         $this->em->flush();
-
         $this->addFlash('success', 'La tâche a bien été supprimée.');
 
         return $this->redirectToRoute('task_list');
