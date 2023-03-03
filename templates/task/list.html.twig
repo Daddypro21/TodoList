@@ -26,6 +26,7 @@
                     </form>
                 </div>
             </div>
+            <p> Ajouté par {% if task.user.username is defined  %} {{ task.user.username}}{% else %} Anonyme {% endif %}</p>
         </div>
         {% else %}
             <div class="alert alert-warning" role="alert">
