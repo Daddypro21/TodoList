@@ -53,6 +53,11 @@ class TaskController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function editAction(Task $task, Request $request)
     {
+        if($task->getUser()->getId() != $this->getUser()->getId()){
+           
+            $this->addFlash('info', 'Vous ne pouvez pas modifier cette tache.');
+            return $this->redirectToRoute('task_list');
+        }
         $form = $this->createForm(TaskType::class, $task);
 
         $form->handleRequest($request);
@@ -75,6 +80,11 @@ class TaskController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function toggleTaskAction(Task $task)
     {
+        if($task->getUser()->getId() != $this->getUser()->getId()){
+           
+            $this->addFlash('info', 'Vous ne pouvez pas marquer cette tache.');
+            return $this->redirectToRoute('task_list');
+        }
         $task->toggle(!$task->isDone());
         $this->em->flush();
 
