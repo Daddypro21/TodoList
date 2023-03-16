@@ -53,11 +53,13 @@ class TaskController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function editAction(Task $task, Request $request)
     {
-        if($task->getUser()->getId() != $this->getUser()->getId()){
+        // if(){
            
-            $this->addFlash('info', 'Vous ne pouvez pas modifier cette tache.');
-            return $this->redirectToRoute('task_list');
-        }
+        //     $this->addFlash('info', 'Vous ne pouvez pas modifier cette tache.');
+        //     return $this->redirectToRoute('task_list');
+        // }
+
+        $this->denyAccessUnlessGranted('editAction', $task) ;
         $form = $this->createForm(TaskType::class, $task);
 
         $form->handleRequest($request);
@@ -80,11 +82,14 @@ class TaskController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function toggleTaskAction(Task $task)
     {
-        if($task->getUser()->getId() != $this->getUser()->getId()){
+
+    //    if($task->getUser()->getId() != $this->getUser()->getId()){
            
-            $this->addFlash('info', 'Vous ne pouvez pas marquer cette tache.');
-            return $this->redirectToRoute('task_list');
-        }
+    //         $this->addFlash('info', 'Vous ne pouvez pas marquer cette tache.');
+    //         return $this->redirectToRoute('task_list');
+    //     }
+
+    $this->denyAccessUnlessGranted('toggleTaskAction', $task) ;
         $task->toggle(!$task->isDone());
         $this->em->flush();
 
@@ -98,12 +103,13 @@ class TaskController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function deleteTaskAction(Task $task)
     {
-        if($task->getUser()->getId() != $this->getUser()->getId()){
+        // if($task->getUser()->getId() != $this->getUser()->getId()){
            
-            $this->addFlash('info', 'Vous ne pouvez pas supprimer cette tache.');
-            return $this->redirectToRoute('task_list');
-        }
+        //     $this->addFlash('info', 'Vous ne pouvez pas supprimer cette tache.');
+        //     return $this->redirectToRoute('task_list');
+        // }
         
+        $this->denyAccessUnlessGranted('deleteTaskAction', $task) ;
         $this->em->remove($task);
         $this->em->flush();
         $this->addFlash('success', 'La tâche a bien été supprimée.');
