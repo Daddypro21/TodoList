@@ -4,7 +4,6 @@ namespace App\Security\Voter;
 
 use App\Entity\Task;
 use App\Entity\User;
-// use Symfony\Component\Security\Core\Security;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
@@ -24,8 +23,7 @@ class TaskVoter extends Voter
 
     protected function supports(string $attribute, mixed $task): bool
     {
-        // replace with your own logic
-        // https://symfony.com/doc/current/security/voters.html
+        
         return in_array($attribute, [self::TASK_EDIT, self::TASK_DELETE,self::TASK_TOGGLE])
             && $task instanceof \App\Entity\Task;
     }
@@ -33,6 +31,8 @@ class TaskVoter extends Voter
     protected function voteOnAttribute(string $attribute, mixed $task, TokenInterface $token): bool
     {
         $user = $token->getUser();
+
+         
         // if the user is anonymous, do not grant access
         if (!$user instanceof UserInterface) {
             return false;
@@ -44,8 +44,12 @@ class TaskVoter extends Voter
 
         //On verifie si la tache a un proprietaire
 
-        if(null === $task->getUser()) return false;
-        // ... (check conditions and return true to grant permission) ...
+        if(null === $task->getUser()){
+
+            return false;
+
+        } 
+        
         switch ($attribute) {
             case self::TASK_EDIT:
 
@@ -70,6 +74,7 @@ class TaskVoter extends Voter
 
     private function canEdit( Task $task, User $user)
     {
+        
         //le proprietaire de la tache peut modifier
         return $user === $task->getUser();
     }
