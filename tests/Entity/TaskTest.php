@@ -65,7 +65,7 @@ class TaskTest extends KernelTestCase
 
     $task = $this->getEntity();
     $task->setContent();
-    $this->getValidate($task, 1);
+    $this->getValidate($task,1);
 
    }
 
