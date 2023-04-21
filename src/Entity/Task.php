@@ -29,7 +29,7 @@ class Task
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Assert\NotBlank]
+    #[Assert\NotBlank (message : 'le contenu ne peut pa etre nul')]
     private ?string $content = null;
 
     #[ORM\Column]
