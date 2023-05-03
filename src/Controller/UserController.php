@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserController extends AbstractController
 {
@@ -21,16 +22,16 @@ class UserController extends AbstractController
     }
 
     #[Route("/users/create", name:"user_create")]
-    public function createAction(Request $request , EntityManagerInterface $em)
+    public function createAction(Request $request , EntityManagerInterface $em ,
+    UserPasswordHasherInterface $passwordHasher)
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
 
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
-            //il faudrait gerer ça
-            $password = $this->get('security.password_encoder')->encodePassword($user, $user->getPassword());
+        if ($form->isSubmitted() && $form->isValid()) {
+            $password = $passwordHasher->hashPassword($user,$user->getPassword());
             $user->setPassword($password);
 
             $em->persist($user);
@@ -46,15 +47,16 @@ class UserController extends AbstractController
 
    
     #[Route("/users/{id}/edit", name:"user_edit")]
-    public function editAction(User $user, Request $request, EntityManagerInterface $em)
+    public function editAction(User $user, Request $request, EntityManagerInterface $em,
+    UserPasswordHasherInterface $passwordHasher)
     {
         $form = $this->createForm(UserType::class, $user);
 
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             // il faudrait gerer ça
-            $password = $this->get('security.password_encoder')->encodePassword($user, $user->getPassword());
+            $password = $passwordHasher->hashPassword($user,$user->getPassword());
             $user->setPassword($password);
 
             $em->flush();
