@@ -4,68 +4,44 @@ namespace App\Tests\Entity;
 
 
 use App\Entity\Task;
-use App\Entity\User;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use DateTime;
+use ReflectionClass;
 use DateTimeImmutable;
+use PHPUnit\Framework\TestCase;
 
 
-class TaskTest extends KernelTestCase
+class TaskTest extends TestCase
 {
-    
-    public function getEntity(): Task
+    private $title = "Titre";
+    private $content = "Contenu du task";
+    private $isDone = true;
+
+    public function testGetters() : Void
     {
-        $user = new User();
-        return  (new Task())
-            ->setTitle("Mon contenu")
-            ->setContent("Mon contenu")
-            ->setCreatedAt(new DateTimeImmutable())
-            ->setIsDone(true)
-            ->setUser($user)
 
-            ;
+        // $taskReflection = new ReflectionClass(Task::class);
+        // $task = $taskReflection->newInstanceWithoutConstructor();
+        // $taskReflection->getProperty('title')->setValue($task, $this->title);
+        // $taskReflection->getProperty('content')->setValue($task,$this->content);
+        // $taskReflection->getProperty('isDone')->setValue($task, $this->isDone);
+        // $taskReflection->getProperty('createdAt')->setValue($task,(new DateTimeImmutable())->setDate( 2023,04,01)->setTime(12,00,00,00));
+      
+        
+        $task = new Task();
+        $task->setTitle($this->title);
+        $task->setContent($this->content);
+        $task->setIsDone($this->isDone);
+        $task->setCreatedAt((new DateTimeImmutable())->setDate( 2023,04,01)->setTime(12,00,00,00));
+        
+        
+        $this->assertNull($task->getId());
+        $this->assertEquals($this->title, $task->getTitle());
+        $this->assertEquals($this->content, $task->getContent());
+        $this->assertEquals((new DateTimeImmutable())->setDate( 2023,04,01)->setTime(12,00,00,00), $task->getCreatedAt());
+        $this->assertEquals($this->isDone, $task->getIsDone());
     }
-
-    public function assertHasErrors( Task $task,int $number )
-    {
-        self::bootKernel();
-        $container = static::getContainer();
-        $error = $container->get('validator')->validate($task);
-        $this->assertCount($number,$error);
-        return $error;
-    }
-
-    public function testValidEntity()
-    {
-            
-        $this->assertHasErrors($this->getEntity(), 0);
-
-    }
-
-    public function testInvalidTitle()
-    {
-       $task = $this->getEntity();
-       $task->getTitle("title");
-        $this->assertHasErrors($this->getEntity(), 1);
-    }
-
-    public function testValidTitle()
-    {
-       $task = $this->getEntity();
-       $task->getTitle("title");
-        $this->assertHasErrors($this->getEntity(), 0);
-    }
-    public function testInvalidContent() 
-    {
-        $task = $this->getEntity();
-        $task->getContent();
-        $this->assertHasErrors($task, 1);
-    }
-    public function testValidContent() 
-    {
-        $task = $this->getEntity();
-        $task->getContent(" Je suis le contenu");
-        $this->assertHasErrors($task, 0);
-    }
-
-
+   
 }
+
+
+

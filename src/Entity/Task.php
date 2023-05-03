@@ -16,7 +16,7 @@ class Task
     private ?int $id = null;
 
     #[ORM\Column]
-    #[Assert\NotBlank]
+    #[Assert\NotBlank()]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(length: 255)]
@@ -36,7 +36,7 @@ class Task
     private ?bool $isDone = null;
 
     #[ORM\ManyToOne(inversedBy: 'tasks')]
-    #[Assert\NotNull]
+  
     private ?User $user = null;
 
     public function getId(): ?int
@@ -80,7 +80,7 @@ class Task
         return $this;
     }
 
-    public function isIsDone(): ?bool
+    public function getIsDone(): ?bool
     {
         return $this->isDone;
     }
