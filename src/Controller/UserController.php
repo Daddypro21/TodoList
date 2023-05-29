@@ -55,7 +55,7 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // il faudrait gerer ça
+         
             $password = $passwordHasher->hashPassword($user,$user->getPassword());
             $user->setPassword($password);
 
@@ -66,6 +66,6 @@ class UserController extends AbstractController
             return $this->redirectToRoute('user_list');
         }
 
-        return $this->render('user/edit.html.twig', ['form' => $form->createView(), 'user' => $user]);
+        return $this->render('user/edit.html.twig', ['form' => $form->createView(),'user' => $user]);
     }
 }

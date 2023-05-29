@@ -22,9 +22,8 @@ class Task
     #[ORM\Column(length: 255)]
     #[Assert\Length(
         min: 3,
-        max: 20,
-        minMessage: 'Your first name must be at least {{ limit }} characters long',
-        maxMessage: 'Your first name cannot be longer than {{ limit }} characters',
+        minMessage: 'Your title must be at least 3 characters long',
+       
     )]
     private ?string $title = null;
 

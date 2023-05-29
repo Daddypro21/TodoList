@@ -16,7 +16,7 @@ class TaskTest extends TestCase
     private $content = "Contenu du task";
     private $isDone = true;
 
-    public function testGetters() : Void
+    public function testGetterTask() : Void
     {
 
         // $taskReflection = new ReflectionClass(Task::class);

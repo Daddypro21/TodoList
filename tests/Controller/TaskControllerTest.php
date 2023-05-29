@@ -73,7 +73,6 @@ class TaskControllerTest extends WebTestCase
         $form['task[title]'] = 'Mon premier jour1';
         $form['task[content]'] = 'Tout allait bien jusqu\'à ce que ......';
         $form['task[isDone]'] =true;
-        //$form['task[createdAt]'] = (new DateTimeImmutable())->setDate(2023,04,26)->setTime(01,00,00,00);
         $this->client->submit($form); 
         $this->assertResponseRedirects('/tasks');
         $this->client->followRedirect();

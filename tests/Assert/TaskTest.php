@@ -11,6 +11,8 @@ use DateTimeImmutable;
 
 class TaskTest extends KernelTestCase
 {
+    private const TITLE_ERROR_MESSAGE = 'Your title  must be at least 3 characters long';
+    private const NO_BLANCK_MESSAGE = 'This value should not be blank.';
     
     public function getEntity(): Task
     {
@@ -29,9 +31,10 @@ class TaskTest extends KernelTestCase
     {
         self::bootKernel();
         $container = static::getContainer();
+
         $error = $container->get('validator')->validate($task);
         $this->assertCount($number,$error);
-        // $this->assertSame("Your first name must be at least 3 characters long",$error);
+        return $error ;
         
         
        
@@ -47,30 +50,38 @@ class TaskTest extends KernelTestCase
 
     public function testInvalidTitle()
     {
-       $task = $this->getEntity();
-       $task->getTitle();
-        dd($this->assertHasErrors($this->getEntity(), 1));
+       $task = new Task();
+       $task->setTitle("ti");
+       $this->assertHasErrors($task,3);
         
     }
 
     public function testValidTitle()
     {
        $task = $this->getEntity();
-       $task->getTitle("title");
+       $task->setTitle("title");
         $this->assertHasErrors($this->getEntity(), 0);
     }
     public function testInvalidContent() 
     {
-        $task = $this->getEntity();
-        $task->getContent();
-        $this->assertHasErrors($task, 1);
+        $task = new Task();
+        $task->setContent("");
+        $this->assertHasErrors($task, 2);
     }
     public function testValidContent() 
     {
         $task = $this->getEntity();
-        $task->getContent(" Je suis le contenu");
+        $task->setContent(" Je suis le contenu");
         $this->assertHasErrors($task, 0);
     }
+
+    public function testInValidIsDone() 
+    {
+        $task = new Task();
+        $task->setIsDone("");
+        $this->assertHasErrors($task, 2);
+    }
+    
 
 
 }
