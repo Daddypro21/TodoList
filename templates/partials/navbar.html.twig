@@ -19,10 +19,10 @@
         <a class="nav-link" href="{{path('app_logout')}}">Deconnexion</a>
       </li>
       {% endif %}
-      {% if app.user is defined and app.user.roles[0] == 'ROLE_ADMIN' %}
-      <li class="nav-item">
-        <a class="nav-link" href="{{path('user_list')}}"> Liste des utilisateurs</a>
-      </li>
+      {% if app.user.roles is defined and app.user.roles[0] == 'ROLE_ADMIN' %}
+          <li class="nav-item">
+            <a class="nav-link" href="{{path('user_list')}}"> Liste des utilisateurs</a>
+          </li>
       {% endif %}
     </ul>
     
