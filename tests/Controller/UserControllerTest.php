@@ -4,7 +4,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+
 
 class UserControllerTest extends WebTestCase
 {

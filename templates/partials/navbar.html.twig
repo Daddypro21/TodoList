@@ -10,9 +10,12 @@
         <a class="nav-link" href="{{path('homepage')}}">Home <span class="sr-only"></span></a>
       </li>
       
-      {% if app.user is not defined %}
+      {% if app.user.roles is not defined %}
        <li class="nav-item">
         <a class="nav-link" href="{{path('app_login')}}">Se connecter</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{path('app_register')}}">Créer un compte</a>
       </li>
       {% else %}
       <li class="nav-item">
