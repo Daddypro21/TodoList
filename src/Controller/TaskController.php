@@ -109,4 +109,14 @@ class TaskController extends AbstractController
         return $this->redirectToRoute('task_list');
     }
 
+    #[Route("/tasks/show/task", name:"task_show")]
+    public function showTask( TaskRepository $repoTask)
+    {
+       $tasks =  $repoTask->findBy([ 'user'=>$this->getUser()]);
+
+       return $this->render('task/show_task.html.twig', [
+        'tasks' => $tasks
+    ]);
+    }
+
 }
