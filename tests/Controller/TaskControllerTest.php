@@ -47,6 +47,7 @@ class TaskControllerTest extends WebTestCase
 
         $crawler = $this->client->request(Request::METHOD_GET, $urlGenerator->generate('task_create'));
         $form = $crawler->selectButton('Ajouter')->form();
+
         $form['task[title]'] = 'Mon premier jour';
         $form['task[content]'] = 'Tout allait bien jusqu\'à ce que ......';
         $form['task[isDone]'] =true;

@@ -14,7 +14,7 @@ class UserTest extends TestCase
    private $email = "email@gmail.com";
    private $password = "123456";
    private $roles = ['ROLE_USER'];
-  
+   private $isVerified = true;
 
     public function testGetterUser() : Void
     {
@@ -25,12 +25,14 @@ class UserTest extends TestCase
         $user->setUsername($this->username);
         $user->setEmail($this->email);
         $user->setpassword($this->password);
+        $user->setIsVerified($this->isVerified);
         $user->setRoles($this->roles);
         
         $this->assertNull($user->getId());
         $this->assertEquals($this->username, $user->getUsername());
         $this->assertEquals($this->email, $user->getEmail());
         $this->assertEquals($this->password, $user->getPassword());
+        $this->assertEquals($this->isVerified, $user->getIsVerified());
         $this->assertEquals($this->roles, $user->getRoles());
     }
    
